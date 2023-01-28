@@ -1,0 +1,33 @@
+[user]
+    name = "Kazuo Teramoto"
+    email = "{{ .email }}"
+[color]
+    status = auto
+    ui = true
+[core]
+    editor = vim
+    excludesfile = {{ .chezmoi.homeDir }}/.gitignore
+    whitespace = trailing-space,space-before-tab
+    pager = delta
+[alias]
+    s = status --short --branch
+[push]
+    default = current
+[advice]
+    statusHints = false
+[diff]
+    renames = copies
+    mnemonicprefix = true
+    colorMoved = default
+[apply]
+    whitespace = fix
+[github]
+    user = kazuoteramoto
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    light = true 
+    diff-so-fancy = true
+[merge]
+    conflictstyle = diff3
