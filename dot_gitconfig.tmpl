@@ -1,5 +1,5 @@
 [user]
-    name = "Kazuo Teramoto"
+    name = "{{ .name }}"
     email = "{{ .email }}"
 [color]
     status = auto
@@ -22,7 +22,7 @@
 [apply]
     whitespace = fix
 [github]
-    user = kazuoteramoto
+    user = {{ .github_user }}
 [interactive]
     diffFilter = delta --color-only
 [delta]
