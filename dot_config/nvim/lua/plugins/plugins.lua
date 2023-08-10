@@ -19,15 +19,7 @@ return {
     cmd = "DiffviewOpen",
   },
   { -- rainbow () [] {}
-    "mrjones2014/nvim-ts-rainbow",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        rainbow = {
-          enable = true,
-        },
-      })
-    end,
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    "HiPhish/rainbow-delimiters.nvim",
   },
   { -- code outline
     "stevearc/aerial.nvim",
