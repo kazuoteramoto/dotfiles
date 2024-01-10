@@ -1,19 +1,13 @@
 return {
   {
-    "jose-elias-alvarez/null-ls.nvim",
-    opts = function()
-      local null_ls = require("null-ls")
-      return {
-        sources = {
-          null_ls.builtins.diagnostics.ruff,
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.isort,
-          null_ls.builtins.formatting.yapf,
-          null_ls.builtins.formatting.jq,
-          null_ls.builtins.completion.spell,
-        },
-      }
-    end,
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = { "ruff_lint", "ruff_format" },
+        lua = { "stylua" },
+        json = { "jq" },
+      },
+    },
   },
   {
     "folke/noice.nvim",
@@ -49,23 +43,6 @@ return {
         },
       },
     },
-  },
-  {
-    "goolord/alpha-nvim",
-    opts = function()
-      local dashboard = require("alpha.themes.dashboard")
-      local logo = [[
-███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
-  ]]
-
-      dashboard.section.header.val = vim.split(logo, "\n")
-      return dashboard
-    end,
   },
   { -- reduce notify verbosity
     "rcarriga/nvim-notify",
