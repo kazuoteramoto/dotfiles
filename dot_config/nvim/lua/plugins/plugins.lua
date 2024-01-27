@@ -21,6 +21,20 @@ return {
   { -- rainbow () [] {}
     "HiPhish/rainbow-delimiters.nvim",
   },
+  {
+    "AckslD/nvim-neoclip.lua",
+    dependencies = {
+      { "kkharji/sqlite.lua", module = "sqlite" },
+      "nvim-telescope/telescope.nvim",
+    },
+    keys = {
+      { "<leader>y", "<cmd>Telescope neoclip<CR>", desc = "Neoclip (Yank History)" },
+    },
+    cmd = "Telescope neoclip",
+    config = function()
+      require("neoclip").setup({})
+    end,
+  },
   { -- code outline
     "stevearc/aerial.nvim",
     config = function()
