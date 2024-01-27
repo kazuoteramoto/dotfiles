@@ -1,57 +1,87 @@
 local wezterm = require("wezterm")
 
 return {
-    font = wezterm.font_with_fallback({
-        { family = "Cascadia Code PL", harfbuzz_features = { "calt", "ss20", "ss01" } },
-        { family = "Noto Emoji" },
-        { family = "Symbols Nerd Font" },
-        { family = "M PLUS 1 Code", scale = 0.9 },
-        { family = "Noto Sans Mono" },
-        { family = "Noto Sans Mono CJK JP" },
-    }),
-    font_size = {{ .monospace_font_size }},
-    enable_tab_bar = false,
-    colors = {
-        foreground = "#654735",
-        background = "#f2e5bc",
-        cursor_fg = "#f2e5bc",
-        cursor_bg = "#654735",
-        cursor_border = "#654735",
-        selection_bg = "#654735",
-        selection_fg = "#f2e5bc",
-        ansi = {
-            "#f2e5bc",
-            "#c14a4a",
-            "#6c782e",
-            "#b47109",
-            "#45707a",
-            "#945e80",
-            "#4c7a5d",
-            "#654735",
-        },
-        brights = {
-            "#a89984",
-            "#fe807b",
-            "#a1ac5f",
-            "#f1a545",
-            "#78a4ae",
-            "#cb91b5",
-            "#7faf8f",
-            "#282828",
-        },
-        indexed = {
-            [16] = "#c35e0a",
-            [17] = "#e78a4e",
-            [18] = "#ebdbb2",
-            [19] = "#c9b99a",
-            [20] = "#665c54",
-            [21] = "#3c3836",
-        },
+  font = wezterm.font_with_fallback({
+    {
+      family = "Monaspace Neon",
+      weight = "Medium",
+      harfbuzz_features = { "calt", "liga", "dlig", "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08" },
     },
-    window_padding = {
-        left = "0.5cell",
-        right = "0.5cell",
-        top = "0.5cell",
-        bottom = "0.5cell",
+    { family = "Noto Emoji" },
+    { family = "Symbols Nerd Font" },
+    { family = "M PLUS 1 Code", scale = 0.9 },
+    { family = "Noto Sans Mono" },
+    { family = "Noto Sans Mono CJK JP" },
+  }),
+  font_rules = {
+    {
+      italic = false,
+      font = wezterm.font_with_fallback({
+        {
+          family = "Monaspace Neon",
+          weight = "Medium",
+          harfbuzz_features = { "calt", "liga", "dlig", "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08" },
+        },
+      }),
     },
+    {
+      italic = true,
+      font = wezterm.font_with_fallback({
+        {
+          family = "Monaspace Radon",
+          weight = "Medium",
+          harfbuzz_features = { "calt", "liga", "dlig", "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08" },
+        },
+      }),
+    },
+  },
+  font_size = {{ .monospace_font_size }},
+  {{ if eq .chezmoi.os "linux" -}}
+  enable_tab_bar = false,
+  {{ else -}}
+  enable_tab_bar = true,
+  {{ end -}}
+  colors = {
+    foreground = "#654735",
+    background = "#f2e5bc",
+    cursor_fg = "#f2e5bc",
+    cursor_bg = "#654735",
+    cursor_border = "#654735",
+    selection_bg = "#654735",
+    selection_fg = "#f2e5bc",
+    ansi = {
+      "#f2e5bc",
+      "#c14a4a",
+      "#6c782e",
+      "#b47109",
+      "#45707a",
+      "#945e80",
+      "#4c7a5d",
+      "#654735",
+    },
+    brights = {
+      "#a89984",
+      "#fe807b",
+      "#a1ac5f",
+      "#f1a545",
+      "#78a4ae",
+      "#cb91b5",
+      "#7faf8f",
+      "#282828",
+    },
+    indexed = {
+      [16] = "#c35e0a",
+      [17] = "#e78a4e",
+      [18] = "#ebdbb2",
+      [19] = "#c9b99a",
+      [20] = "#665c54",
+      [21] = "#3c3836",
+    },
+  },
+  window_padding = {
+    left = "0.5cell",
+    right = "0.5cell",
+    top = "0.5cell",
+    bottom = "0.5cell",
+  },
 }
