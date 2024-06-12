@@ -1,0 +1,9 @@
+gwt() {
+    branch="$1"
+    cd $(git rev-parse --path-format=absolute --git-common-dir)/..
+    if ! git show-ref --quiet $branch; then
+        git branch $branch
+    fi
+    git worktree add "$branch" "$branch"
+    cd "$branch"
+}
