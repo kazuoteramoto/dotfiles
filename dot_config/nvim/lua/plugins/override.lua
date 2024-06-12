@@ -3,9 +3,10 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        python = { "ruff_lint", "ruff_format" },
+        python = { "ruff_fix", "ruff_format" },
         lua = { "stylua" },
         json = { "jq" },
+        javascript = { { "prettierd", "prettier" } },
       },
     },
   },
@@ -21,17 +22,18 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-      diagnostics = { -- make diagnostics less intrusive
-        underline = false,
-        virtual_text = false,
+      inlay_hints = { enabled = true },
+      diagnostics = {
+        underline = true,
+        virtual_text = true,
       },
       format = {
         timeout_ms = 2000,
       },
       servers = {
-        pyright = {
+        basedpyright = {
           settings = {
-            python = {
+            basedpyright = {
               analysis = {
                 autoSearchPaths = true,
                 useLibraryCodeForTypes = true,

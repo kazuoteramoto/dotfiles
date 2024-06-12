@@ -10,8 +10,13 @@ vim.opt.listchars = { tab = ">-", nbsp = "␣", trail = "·" }
 vim.opt.virtualedit = "onemore"
 vim.opt.colorcolumn = "+1"
 
+vim.g.lazyvim_python_lsp = "basedpyright"
+
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 
 vim.g.vim_json_syntax_conceal = 0
+
+vim.opt.spelllang = "en_us,pt_br"
+vim.opt.spell = true
