@@ -11,5 +11,18 @@ export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-source ${ZDOTDIR:-~}/alias.zsh
-source ${ZDOTDIR:-~}/keys.zsh
+# load config.d
+local -a conf_files=(${ZDOTDIR:-~}/config.d/*.zsh(N))
+local rcfile
+# sort and source conf files
+for rcfile in ${(o)conf_files}; do
+    # ignore files that begin with a tilde
+    case ${rcfile:t} in '~'*) continue;; esac
+    source "$rcfile"
+done
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+_git
+compdef __git_branch_names gwt
