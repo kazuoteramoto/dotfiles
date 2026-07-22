@@ -1,0 +1,53 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+set -euo pipefail
+
+# Install packages
+sudo pacman -S --needed --noconfirm \
+    git \
+    starship \
+    neovim \
+    eza \
+    ripgrep \
+    zoxide \
+    bat \
+    git-delta
+
+# Install antidote zsh plugin manager
+ANTIDOTE_DIR="${ZDOTDIR:-$HOME}/.antidote"
+if [ ! -d "$ANTIDOTE_DIR" ]; then
+    git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTIDOTE_DIR"
+fi
+
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+set -euo pipefail
+
+# Install Homebrew
+if ! command -v brew >/dev/null 2>&1; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# Core utilities
+brew install coreutils wget
+
+# Fonts
+brew install font-monaspace-nf
+brew install font-noto-emoji font-noto-sans-mono font-noto-sans-cjk-jp
+
+# CLI tools
+brew install git
+brew install starship neovim eza ripgrep zoxide
+brew install bat git-delta
+
+# Install antidote zsh plugin manager
+ANTIDOTE_DIR="${ZDOTDIR:-$HOME}/.antidote"
+if [ ! -d "$ANTIDOTE_DIR" ]; then
+    git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTIDOTE_DIR"
+fi
+
+{{ else -}}
+#!/bin/sh
+echo "Unsupported OS: {{ .chezmoi.os }}" >&2
+exit 1
+{{ end -}}
