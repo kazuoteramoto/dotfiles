@@ -6,8 +6,12 @@ return {
         python = { "ruff_fix", "ruff_format" },
         lua = { "stylua" },
         json = { "jq" },
-        javascript = { { "prettierd", "prettier" } },
+        javascript = { "prettier" },
+        sql = { "sqruff" },
+        markdown = { "markdownlint-cli2" },
+        openscad = { "scadformat" },
       },
+      formatters = { scadformat = { command = "scadformat" } },
     },
   },
   {
@@ -22,7 +26,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-      inlay_hints = { enabled = true },
+      inlay_hints = { enabled = false },
       diagnostics = {
         underline = true,
         virtual_text = true,
@@ -50,6 +54,14 @@ return {
     "rcarriga/nvim-notify",
     opts = {
       level = "WARN",
+    },
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    opts = {
+      checkbox = { enabled = false },
+      latex = { enabled = false },
+      code = { border = "thin" },
     },
   },
 }

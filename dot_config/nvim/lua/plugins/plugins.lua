@@ -37,17 +37,12 @@ return {
       require("neoclip").setup({})
     end,
   },
-  { -- code outline
-    "stevearc/aerial.nvim",
-    config = function()
-      require("aerial").setup()
-    end,
-    keys = {
-      {
-        "<leader>ct",
-        "<cmd>AerialToggle left<cr>",
-        desc = "Aerial (Code Outline)",
-      },
-    },
+  {
+    "chrisgrieser/nvim-lsp-endhints",
+    event = "LspAttach",
+    opts = {}, -- required, even if empty
   },
+  { "wsdjeg/vim-fetch" },
+  { "junegunn/vim-easy-align" },
+  { "jiaoshijie/undotree" },
 }
