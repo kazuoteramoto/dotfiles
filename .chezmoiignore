@@ -1,7 +1,8 @@
+README.md
 .config/nvim/lazy-lock.json
 .config/nvim/lazyvim.json
 .zsh/.antidote
 .zsh/.zcompdump
 .zsh/.zsh_history
 .zsh/.zsh_plugins.zsh
-README.md
+.zsh/secrets.d

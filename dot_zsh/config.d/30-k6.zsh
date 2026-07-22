@@ -1,0 +1,1 @@
+export K6_WEB_DASHBOARD=true

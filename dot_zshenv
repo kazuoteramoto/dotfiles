@@ -1,2 +1,4 @@
 ZDOTDIR=$HOME/.zsh
 . $ZDOTDIR/.zshenv
+
+. "$HOME/.cargo/env"
