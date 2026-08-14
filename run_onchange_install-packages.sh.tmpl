@@ -2,6 +2,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# Set the future ZDOTDIR
+ZDOTDIR="$HOME/.zsh"
+
 # Install tools locally, no sudo, distro-independent
 BIN="$HOME/.local/bin"
 mkdir -p "$BIN"
@@ -76,7 +79,7 @@ mv "/tmp/nvim-linux-${NVIM_ARCH}" "$NVIM_DIR"
 ln -sf "$NVIM_DIR/bin/nvim" "$BIN/nvim"
 
 # Install antidote zsh plugin manager
-ANTIDOTE_DIR="${ZDOTDIR:-$HOME}/.antidote"
+ANTIDOTE_DIR="${ZDOTDIR}/.antidote"
 if [ ! -d "$ANTIDOTE_DIR" ]; then
     git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTIDOTE_DIR"
 fi
@@ -107,7 +110,7 @@ curl -fsSL -o "$HOME/.local/bin/git-wt" "https://github.com/kazuoteramoto/git-wt
 chmod +x "$HOME/.local/bin/git-wt"
 
 # Install antidote zsh plugin manager
-ANTIDOTE_DIR="${ZDOTDIR:-$HOME}/.antidote"
+ANTIDOTE_DIR="${ZDOTDIR}/.antidote"
 if [ ! -d "$ANTIDOTE_DIR" ]; then
     git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTIDOTE_DIR"
 fi
