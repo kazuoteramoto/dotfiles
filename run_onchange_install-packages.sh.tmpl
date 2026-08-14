@@ -63,7 +63,7 @@ EZA_VER="$(gh_latest eza-community/eza)"
 gh_extract eza-community/eza "$EZA_VER" "eza_${TRIPLE}.tar.gz" eza
 
 # git-wt
-curl -fsSL -o "$BIN/git-wt" "https://github.com/kazuoteramoto/git-wt/releases/latest/download/git-wt-linux-${GITWT_ARCH}"
+curl -fsSL -o "$BIN/git-wt" "https://github.com/kazuoteramoto/git-wt/releases/download/nightly/git-wt-linux-${GITWT_ARCH}"
 chmod +x "$BIN/git-wt"
 
 # neovim (tarball includes runtime, symlink binary)
@@ -103,7 +103,7 @@ brew install bat git-delta
 
 # git-wt (no brew formula, prebuilt binary)
 mkdir -p "$HOME/.local/bin"
-curl -fsSL -o "$HOME/.local/bin/git-wt" "https://github.com/kazuoteramoto/git-wt/releases/latest/download/git-wt-darwin-arm64"
+curl -fsSL -o "$HOME/.local/bin/git-wt" "https://github.com/kazuoteramoto/git-wt/releases/download/nightly/git-wt-darwin-arm64"
 chmod +x "$HOME/.local/bin/git-wt"
 
 # Install antidote zsh plugin manager

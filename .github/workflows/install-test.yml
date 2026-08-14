@@ -1,0 +1,42 @@
+name: install-test
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  install:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-latest]
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
+
+      - name: Render install script
+        run: chezmoi execute-template < run_onchange_install-packages.sh.tmpl > /tmp/install.sh
+
+      - name: Run install
+        run: bash /tmp/install.sh
+
+      - name: Verify tools (linux)
+        if: runner.os == 'Linux'
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          for t in nvim starship eza rg zoxide bat delta git-wt; do
+            command -v "$t" >/dev/null || { echo "missing: $t"; exit 1; }
+          done
+
+      - name: Verify tools (macos)
+        if: runner.os == 'macOS'
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          for t in nvim starship eza rg zoxide bat delta git-wt wget; do
+            command -v "$t" >/dev/null || { echo "missing: $t"; exit 1; }
+          done
+          test -x "$(brew --prefix)/bin/bash"
