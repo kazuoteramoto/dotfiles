@@ -2,16 +2,78 @@
 #!/bin/bash
 set -euo pipefail
 
-# Install packages
-sudo pacman -S --needed --noconfirm \
-    git \
-    starship \
-    neovim \
-    eza \
-    ripgrep \
-    zoxide \
-    bat \
-    git-delta
+# Install tools locally, no sudo, distro-independent
+BIN="$HOME/.local/bin"
+mkdir -p "$BIN"
+
+# gh_latest <repo> — latest release tag
+gh_latest() { curl -fsSL -o /dev/null -w '%{url_effective}' "https://github.com/$1/releases/latest" | sed 's|.*/||'; }
+
+# gh_extract <repo> <tag> <asset> <binary> — download tarball, move binary to $BIN
+gh_extract() {
+    local dir
+    dir="$(mktemp -d)"
+    curl -fsSL -o /tmp/gh-pkg.tar.gz "https://github.com/$1/releases/download/$2/$3"
+    tar -xzf /tmp/gh-pkg.tar.gz -C "$dir"
+    find "$dir" -type f -name "$4" -exec mv {} "$BIN/$4" \;
+    [ -x "$BIN/$4" ] || {
+        echo "failed to install $4" >&2
+        exit 1
+    }
+    rm -rf "$dir" /tmp/gh-pkg.tar.gz
+}
+
+case "$(uname -m)" in
+x86_64)
+    TRIPLE=x86_64-unknown-linux-musl
+    NVIM_ARCH=x86_64
+    GITWT_ARCH=amd64
+    ;;
+aarch64)
+    TRIPLE=aarch64-unknown-linux-musl
+    NVIM_ARCH=aarch64
+    GITWT_ARCH=arm64
+    ;;
+*)
+    echo "Unsupported arch: $(uname -m)" >&2
+    exit 1
+    ;;
+esac
+
+# starship
+curl -fsSL https://starship.rs/install.sh | sh -s -- -y -b "$BIN"
+
+# zoxide
+curl -fsSL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+
+# ripgrep
+RG_VER="$(gh_latest BurntSushi/ripgrep)"
+gh_extract BurntSushi/ripgrep "$RG_VER" "ripgrep-${RG_VER}-${TRIPLE}.tar.gz" rg
+
+# bat (tag has v prefix, asset does not double it)
+BAT_VER="$(gh_latest sharkdp/bat)"
+gh_extract sharkdp/bat "$BAT_VER" "bat-v${BAT_VER#v}-${TRIPLE}.tar.gz" bat
+
+# git-delta
+DELTA_VER="$(gh_latest dandavison/delta)"
+gh_extract dandavison/delta "$DELTA_VER" "delta-${DELTA_VER}-${TRIPLE}.tar.gz" delta
+
+# eza
+EZA_VER="$(gh_latest eza-community/eza)"
+gh_extract eza-community/eza "$EZA_VER" "eza_${TRIPLE}.tar.gz" eza
+
+# git-wt
+curl -fsSL -o "$BIN/git-wt" "https://github.com/kazuoteramoto/git-wt/releases/latest/download/git-wt-linux-${GITWT_ARCH}"
+chmod +x "$BIN/git-wt"
+
+# neovim (tarball includes runtime, symlink binary)
+NVIM_DIR="$HOME/.local/share/nvim-linux-${NVIM_ARCH}"
+NVIM_VER="$(gh_latest neovim/neovim)"
+curl -fsSL -o /tmp/nvim.tar.gz "https://github.com/neovim/neovim/releases/download/${NVIM_VER}/nvim-linux-${NVIM_ARCH}.tar.gz"
+tar -xzf /tmp/nvim.tar.gz -C /tmp
+rm -rf "$NVIM_DIR"
+mv "/tmp/nvim-linux-${NVIM_ARCH}" "$NVIM_DIR"
+ln -sf "$NVIM_DIR/bin/nvim" "$BIN/nvim"
 
 # Install antidote zsh plugin manager
 ANTIDOTE_DIR="${ZDOTDIR:-$HOME}/.antidote"
@@ -29,16 +91,20 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 # Core utilities
-brew install coreutils wget
+brew install coreutils wget bash
 
 # Fonts
 brew install font-monaspace-nf
 brew install font-noto-emoji font-noto-sans-mono font-noto-sans-cjk-jp
 
 # CLI tools
-brew install git
 brew install starship neovim eza ripgrep zoxide
 brew install bat git-delta
+
+# git-wt (no brew formula, prebuilt binary)
+mkdir -p "$HOME/.local/bin"
+curl -fsSL -o "$HOME/.local/bin/git-wt" "https://github.com/kazuoteramoto/git-wt/releases/latest/download/git-wt-darwin-arm64"
+chmod +x "$HOME/.local/bin/git-wt"
 
 # Install antidote zsh plugin manager
 ANTIDOTE_DIR="${ZDOTDIR:-$HOME}/.antidote"

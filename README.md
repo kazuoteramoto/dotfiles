@@ -1,4 +1,4 @@
-# How to use
+# How to Use
 
 Configure the template variables in `~/.config/chezmoi/chezmoi.toml`:
 
@@ -10,4 +10,9 @@ Configure the template variables in `~/.config/chezmoi/chezmoi.toml`:
   monospace_font_size = 10
 ```
 
-Follow chezmoi instructions: https://www.chezmoi.io/
+Follow chezmoi instructions: <https://www.chezmoi.io/>
+
+## Prerequisites
+
+- `git` (used to clone this repo and antidote)
+- `curl` (used for all downloads)
