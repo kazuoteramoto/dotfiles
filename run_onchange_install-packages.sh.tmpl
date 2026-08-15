@@ -1,10 +1,10 @@
-{{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 set -euo pipefail
 
 # Set the future ZDOTDIR
 ZDOTDIR="$HOME/.zsh"
 
+{{ if eq .chezmoi.os "linux" -}}
 # Install tools locally, no sudo, distro-independent
 BIN="$HOME/.local/bin"
 mkdir -p "$BIN"
@@ -85,9 +85,6 @@ if [ ! -d "$ANTIDOTE_DIR" ]; then
 fi
 
 {{ else if eq .chezmoi.os "darwin" -}}
-#!/bin/bash
-set -euo pipefail
-
 # Install Homebrew
 if ! command -v brew >/dev/null 2>&1; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -116,7 +113,6 @@ if [ ! -d "$ANTIDOTE_DIR" ]; then
 fi
 
 {{ else -}}
-#!/bin/sh
 echo "Unsupported OS: {{ .chezmoi.os }}" >&2
 exit 1
 {{ end -}}

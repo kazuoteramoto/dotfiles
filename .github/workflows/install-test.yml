@@ -24,6 +24,23 @@ jobs:
       - name: Run install
         run: bash /tmp/install.sh
 
+      - name: Install zsh (linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y zsh
+
+      - name: Apply dotfiles (zsh only)
+        run: chezmoi apply -S "$GITHUB_WORKSPACE" ~/.zshenv ~/.zsh
+
+      - name: First run of zsh (antidote bootstrap)
+        run: |
+          export TERM=xterm
+          unset PAGER
+          zsh -i -c 'true'
+          zsh -i -c 'true'   # second run — bootstrap must be idempotent
+          test -f ~/.zsh/.zsh_plugins.zsh
+          grep -q zsh-autosuggestions ~/.zsh/.zsh_plugins.zsh
+          grep -q fast-syntax-highlighting ~/.zsh/.zsh_plugins.zsh
+
       - name: Verify tools (linux)
         if: runner.os == 'Linux'
         run: |

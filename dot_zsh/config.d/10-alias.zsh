@@ -1,1 +1,1 @@
-alias cat="batcat --theme=gruvbox-light"
+alias cat="bat --theme=gruvbox-light"
